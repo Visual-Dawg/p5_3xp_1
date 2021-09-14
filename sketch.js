@@ -4,7 +4,9 @@ const SIZE = 1 // increase in decimals
 const AMOUNT = 100
 const RANDOM1 = 0.5
 const RANDOM2 = 5
-const SPREAD = 3
+const SPREAD = 4
+const MAX_WIDTH = 1400
+const MAX_HEIGHT = 700
 
 let xoff = 0
 let yoff = 1
@@ -25,18 +27,21 @@ const alpha = (80 / AMOUNT) * 10
 let mouseOver = false
 
 function setup() {
-	createCanvas(windowWidth, windowHeight)
-	longEdge = windowWidth > windowHeight ? windowWidth : windowHeight
-	shortEdge = windowHeight > windowWidth ? windowHeight : windowWidth
-	spreadX = (windowWidth / 100) * SPREAD
-	spreadY = (windowHeight / 100) * SPREAD
+	const w = windowWidth > MAX_WIDTH ? MAX_WIDTH : windowWidth
+	const h = windowHeight > MAX_HEIGHT ? MAX_HEIGHT : windowHeight
+	longEdge = w > h ? w : h
+	shortEdge = h > w ? h : w
+	spreadX = (w / 100) * SPREAD
+	spreadY = (h / 100) * SPREAD
+
+	createCanvas(w, h)
 }
 
 function draw() {
 	if (COUNTER !== "" && COUNTER === 2) noLoop()
 	else COUNTER += 1
 
-	background(0)
+	background(6)
 	let x = map(noise(xoff), 0, 1, 0, width)
 	let y = map(noise(yoff), 0, 1, 0, height)
 
@@ -44,7 +49,7 @@ function draw() {
 	// console.log(blobState)
 
 	for (let i = blobState.length - 1; i >= 0; i--) {
-		const alphaStroke = map(i, AMOUNT, 0, 20, 100)
+		const alphaStroke = map(i, AMOUNT, 0, 20, 300)
 		fill(blobState[i].color, map(i, 0, AMOUNT, 0, alpha))
 		strokeWeight(map(i, blobState.length, 0, 1, 9))
 		stroke(255, alphaStroke)
